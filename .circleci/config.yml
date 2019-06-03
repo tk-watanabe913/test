@@ -1,7 +1,8 @@
+machine:
+  python:
+    version: 3.5.2
+  timezone: Asia/Tokyo
+
 test:
-  pre:
-    - echo "-----start test-----"
   override:
     - python test/hello_world_test.py
-  post:
-    - echo "-----end test-----"
