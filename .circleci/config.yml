@@ -1,11 +1,3 @@
-machine:
-  python:
-    version: 3.5.0
-
-dependencies:
-  pre:
-    - sudo pip install --upgrade pip
-
 test:
   pre:
     - echo "-----start test-----"
