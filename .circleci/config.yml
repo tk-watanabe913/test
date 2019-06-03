@@ -1,9 +1,5 @@
 version: 2.1
 
-machine:
-  python:
-    version: 3.5.2
-
 test:
   override:
-    - python test/hello_world_test.py
+    - echo Hello World
