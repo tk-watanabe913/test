@@ -3,8 +3,9 @@ machine:
     version: 3.5.0
 
 test:
+  pre:
+    - echo "-----start test-----"
   override:
-    - pwd ~
-    - ifconfig
-    - echo HelloWorld
-    - exit 0
+    - python test/hello_world_test.py
+  post:
+    - echo "-----end test-----"
