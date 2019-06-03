@@ -4,7 +4,7 @@ version: 2.1
 # Use a package of configuration called an orb, see https://circleci.com/docs/2.0/orb-intro/
 orbs:
   # Declare a dependency on the welcome-orb
-  test_mod: test/hello_world_test.py
+  test_mod: python test/hello_world_test.py
 
 # Orchestrate or schedule a set of jobs, see https://circleci.com/docs/2.0/workflows/
 workflows:
