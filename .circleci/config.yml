@@ -1,8 +1,3 @@
-machine:
-  python:
-    version: 3.5.2
-  timezone: Asia/Tokyo
-
 test:
   override:
-    - python test/hello_world_test.py
+    - echo Hello World
