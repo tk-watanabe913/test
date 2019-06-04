@@ -20,10 +20,9 @@ jobs:
           name: run tests
           command: |
             python hello_world_test.py
-            pwd
 
 deployment:
     production:
         branch: master
         commands:
-            - pwd
+            
