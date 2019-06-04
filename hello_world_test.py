@@ -1,9 +1,6 @@
-import sys
-sys.path.append('../')
-
 import unittest
 
-from src.hello_world import HelloWorld
+from hello_world import HelloWorld
 
 class TestHelloWorld(unittest.TestCase):
 
