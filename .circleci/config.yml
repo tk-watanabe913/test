@@ -1,10 +1,22 @@
-# Use the latest 2.1 version of CircleCI pipeline processing engine, see https://circleci.com/docs/2.0/configuration-reference/
 version: 2.1
 
-# Orchestrate or schedule a set of jobs, see https://circleci.com/docs/2.0/workflows/
-workflows:
-  # Name the workflow "Welcome"
-  Welcome:
-    # Run the test_mod/run job in its own container
-    jobs:
-      - python test/hello_world_test.py
+jobs:
+  build:
+
+    # Dockerコンテナを利用する
+    docker:
+
+      # 後続に記載するstepsを実行するメインとなるDockerコンテナを指定する
+      - image: circleci/python:3.6.1
+
+    working_directory: https://github.com/tk-watanabe913/test.git
+
+    steps:
+      # リポジトリのコードを working_directory にチェックアウト
+      - checkout
+
+      # テストの実行
+      - run:
+          name: run tests
+          command: |
+            python test/hello_world_test.py
