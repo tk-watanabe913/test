@@ -19,5 +19,5 @@ jobs:
       - run:
           name: run tests
           command: |
-            python src/hello_world.py
+            python hello_world_test.py
 
