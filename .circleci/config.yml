@@ -1,0 +1,22 @@
+version: 2.1
+
+jobs:
+  build:
+
+    # Dockerコンテナを利用する
+    docker:
+
+      # 後続に記載するstepsを実行するメインとなるDockerコンテナを指定する
+      - image: circleci/python:3.7.3
+
+    working_directory: ~/tk-watanabe913/test.git
+
+    steps:
+      # リポジトリのコードを working_directory にチェックアウト
+      - checkout
+
+      # テストの実行
+      - run:
+          name: run tests
+          command: |
+            python hello_world_test.py
