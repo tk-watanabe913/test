@@ -8,7 +8,7 @@ class TestHelloWorld(unittest.TestCase):
         expected = "hello world!"
 
         helloWorld = HelloWorld()
-        
+
         self.assertEqual(expected, helloWorld.printHelloWorld())
 
 if __name__ == "__main__":
