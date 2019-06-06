@@ -1,9 +1,19 @@
 version: 2.1
-  python:
+
+jobs:
+  build:
+    python:
     version: 3.5.0
-    
-test:
-  name: run tests
+
+    working_directory: ~/tk-watanabe913/test.git
+
+    steps:
+      # リポジトリのコードを working_directory にチェックアウト
+      - checkout
+
+      # テストの実行
+      - run:
+          name: run tests
           command: |
             python hello_world_test.py
 
