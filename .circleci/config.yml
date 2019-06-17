@@ -32,4 +32,4 @@ jobs:
       - run:
           name: Deploy to S3 if branch is Master.
           command: |
-            /home/circleci/.local/bin/aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME}/ --exact-timestamps
+            aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME}/ --exact-timestamps
