@@ -2,16 +2,6 @@ version: 2.1
 
 jobs:
   build:
-
-    # Dockerコンテナを利用する
-    docker:
-
-      # 後続に記載するstepsを実行するメインとなるDockerコンテナを指定する
-      - image: circleci/python:3.7.3
-      
-    docker:
-      - image: innovatorjapan/awscli:latest
-
     working_directory: ~/tk-watanabe913
     
     environment:
@@ -19,6 +9,12 @@ jobs:
       - AWS_SECRET_ACCESS_KEY: Cu/QduspqMFheY7vQm5VEoK9U9x86bfoEAv9mP7F
       - AWS_ACCESS_KEY_ID: AKIAQ4A4FVSWEAYAVICT
       - AWS_S3_BUCKET_NAME: nitcircletest
+   
+    # Dockerコンテナを利用する
+    docker:
+      # 後続に記載するstepsを実行するメインとなるDockerコンテナを指定する
+      - image: circleci/python:3.7.3
+      - image: innovatorjapan/awscli:latest
 
     steps:
       # リポジトリのコードを working_directory にチェックアウト
