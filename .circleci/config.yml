@@ -14,7 +14,6 @@ jobs:
     docker:
       # 後続に記載するstepsを実行するメインとなるDockerコンテナを指定する
       - image: circleci/python:3.7.3
-      - image: innovatorjapan/awscli:latest
 
     steps:
       # リポジトリのコードを working_directory にチェックアウト
@@ -22,10 +21,15 @@ jobs:
 
       # テストの実行
       - run:
+          name: Install newer version of awscli
+          command: |
+            sudo apt-get install python-dev python-pip
+            pip install awscli --user
+      - run:
           name: run tests
           command: |
             python hello_world_test.py
       - run:
           name: Deploy to S3 if branch is Master.
           command: |
-            aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME}/ --exact-timestamps --delete
+            aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME}/ --exact-timestamps
