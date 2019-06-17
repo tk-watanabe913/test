@@ -13,7 +13,7 @@ jobs:
     # Dockerコンテナを利用する
     docker:
       # 後続に記載するstepsを実行するメインとなるDockerコンテナを指定する
-      - image: circleci/node:latest
+      - image: circleci/python:3.7.3
 
     steps:
       # リポジトリのコードを working_directory にチェックアウト
@@ -23,8 +23,8 @@ jobs:
       - run:
           name: Install newer version of awscli
           command: |
-            sudo apt-get install python-dev python-pip
-            pip install awscli --user
+            sudo pip install awscli
+            
       - run:
           name: run tests
           command: |
