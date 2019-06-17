@@ -13,7 +13,7 @@ jobs:
     # Dockerコンテナを利用する
     docker:
       # 後続に記載するstepsを実行するメインとなるDockerコンテナを指定する
-      - image: circleci/python:3.7.3
+      - image: circleci/node:latest
 
     steps:
       # リポジトリのコードを working_directory にチェックアウト
