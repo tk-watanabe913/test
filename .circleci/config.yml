@@ -6,14 +6,13 @@ jobs:
     
     environment:
       - AWS_DEFAULT_REGION: ap-northeast-1
-      - AWS_SECRET_ACCESS_KEY: Cu/QduspqMFheY7vQm5VEoK9U9x86bfoEAv9mP7F
-      - AWS_ACCESS_KEY_ID: AKIAQ4A4FVSWEAYAVICT
-      - AWS_S3_BUCKET_NAME: nitcircletest
+      - AWS_S3_BUCKET_NAME: nitcirclecitest
    
     # Dockerコンテナを利用する
     docker:
       # 後続に記載するstepsを実行するメインとなるDockerコンテナを指定する
       - image: circleci/python:3.7.3
+      - image: innovatorjapan/awscli:latest
 
     steps:
       # リポジトリのコードを working_directory にチェックアウト
@@ -32,4 +31,7 @@ jobs:
       - run:
           name: Deploy to S3 if branch is Master.
           command: |
-            aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME}/ --exact-timestamps
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              aws s3 sync ~/repo s3://${AWS_S3_BUCKET_NAME}/ --exact-timestamps --delete
+            fi
+            
