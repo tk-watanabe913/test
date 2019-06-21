@@ -6,7 +6,8 @@ jobs:
     
     environment:
       - AWS_DEFAULT_REGION: ap-northeast-1
-      - AWS_S3_BUCKET_NAME: nitcirclecitest
+      - AWS_S3_BUCKET_NAME_MASTER: nitcirclecitest-master
+      - AWS_S3_BUCKET_NAME_DEVELOP: nitcirclecitest-develop
    
     # Dockerコンテナを利用する
     docker:
@@ -30,6 +31,7 @@ jobs:
           name: Deploy to S3 if branch is Master.
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME}/ --exact-timestamps --delete
+              aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME_MASTER}/ --exact-timestamps --delete
+            elif  [ "${CIRCLE_BRANCH}" == "develop" ]; then
+              aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME_DEVELOP}/ --exact-timestamps --delete
             fi
-            
