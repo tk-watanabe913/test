@@ -6,4 +6,5 @@ def sum(arg):
 
         total += val
 
+
     return total
