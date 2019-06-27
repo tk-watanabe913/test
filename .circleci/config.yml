@@ -24,7 +24,7 @@ jobs:
           command: |
             python test_sum.py
 
-  # デプロイを実施するジョブ
+  # 本番環境へのデプロイを実施するジョブ
   deploy-to-master:
     machine:
       enabled: true
@@ -37,11 +37,28 @@ jobs:
           command: sudo pip install awscli
 
       - run:
-          name: Deploy to S3 if branch is Master.
+          name: Deploy to S3 if branch is master.
           command: |
             aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME_MASTER}/ --exact-timestamps --delete
             # aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME_DEVELOP}/ --exact-timestamps --delete
-  
+
+  # develop環境へのデプロイを実施するジョブ
+  deploy-to-develop:
+    machine:
+      enabled: true
+    working_directory: ~/tk-watanabe913
+
+    steps:
+      # awscliをインストール
+      - run:
+          name: Install awscli
+          command: sudo pip install awscli
+
+      - run:
+          name: Deploy to S3 if branch is develop.
+          command: |
+            aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME_DEVELOP}/ --exact-timestamps --delete
+
   # 承認URLをslackに通知
   notify-to-slack-for-approval:
     machine:
@@ -79,3 +96,11 @@ workflows:
           filters:
             branches:
               only: master
+              
+      # デプロイジョブ(developブランチ)の実行
+      - deploy-to-develop:
+          requires:
+            - build
+          filters:
+            branches:
+              only: develop
