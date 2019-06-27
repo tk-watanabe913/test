@@ -35,4 +35,3 @@ jobs:
             elif  [ "${CIRCLE_BRANCH}" == "develop" ]; then
               aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME_DEVELOP}/ --exact-timestamps --delete
             fi
-            
