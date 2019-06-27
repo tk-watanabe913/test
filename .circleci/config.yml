@@ -1,5 +1,5 @@
+version: 2
 workflows:
-  version: 2
   jobs:
     build:
       working_directory: ~/tk-watanabe913
