@@ -3,11 +3,6 @@ version: 2.1
 jobs:
   build:
     working_directory: ~/tk-watanabe913
-    
-    environment:
-      - AWS_DEFAULT_REGION: ap-northeast-1
-      - AWS_S3_BUCKET_NAME_MASTER: nitcirclecitest-master
-      - AWS_S3_BUCKET_NAME_DEVELOP: nitcirclecitest-develop
    
     # Dockerコンテナを利用する
     docker:
@@ -27,6 +22,14 @@ jobs:
           name: run tests
           command: |
             python test_sum.py
+
+  deploy:
+    environment:
+      - AWS_DEFAULT_REGION: ap-northeast-1
+      - AWS_S3_BUCKET_NAME_MASTER: nitcirclecitest-master
+      - AWS_S3_BUCKET_NAME_DEVELOP: nitcirclecitest-develop
+    
+    steps:
       - run:
           name: Deploy to S3 if branch is Master.
           command: |
