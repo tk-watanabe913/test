@@ -44,12 +44,9 @@ jobs:
 
 workflows:
   version: 2
-  main:
+  build-and-deploy:
     jobs:
       - build
       - deploy:
           requires:
             - build
-          filters:
-            branches:
-              only: master
