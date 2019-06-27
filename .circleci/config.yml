@@ -1,4 +1,9 @@
 version: 2.1
+
+orbs:
+  # slackのコンフィグパッケージをインポート
+  slack: circleci/slack@3.2.0
+
 jobs:
   build:
     working_directory: ~/tk-watanabe913
@@ -41,6 +46,15 @@ jobs:
             elif  [ "${CIRCLE_BRANCH}" == "develop" ]; then
               aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME_DEVELOP}/ --exact-timestamps --delete
             fi
+  notify-to-slack-for-approval:
+    executor:
+      name: python3_6_1
+
+    steps:
+      - slack/approval:
+          message: "本番環境へのデプロイを承認してください"
+          mentions: "here"
+          color: "#F5E911"
 
 workflows:
   version: 2
@@ -63,3 +77,7 @@ workflows:
           filters:
             branches:
               only: master
+
+      - notify-to-slack-for-approval:
+          requires:
+            - build
