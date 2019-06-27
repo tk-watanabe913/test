@@ -25,7 +25,7 @@ jobs:
             python test_sum.py
 
   # デプロイを実施するジョブ
-  deploy:
+  deploy-to-master:
     machine:
       enabled: true
     working_directory: ~/tk-watanabe913
@@ -39,13 +39,10 @@ jobs:
       - run:
           name: Deploy to S3 if branch is Master.
           command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME_MASTER}/ --exact-timestamps --delete
-            elif  [ "${CIRCLE_BRANCH}" == "develop" ]; then
-              aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME_DEVELOP}/ --exact-timestamps --delete
-            fi
+            aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME_MASTER}/ --exact-timestamps --delete
+            # aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME_DEVELOP}/ --exact-timestamps --delete
   
-  # 承認URLを
+  # 承認URLをslackに通知
   notify-to-slack-for-approval:
     machine:
       enabled: true
@@ -75,8 +72,8 @@ workflows:
           requires:
             - build
 
-      # デプロイジョブの実行
-      - deploy:
+      # デプロイジョブ(masterブランチ)の実行
+      - deploy-to-master::
           requires:
             - approval-deploy
           filters:
