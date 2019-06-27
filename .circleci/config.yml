@@ -50,7 +50,4 @@ workflows:
   main:
     jobs:
       - build
-
-      - deploy:
-        requires:
-          - build
+      - deploy
