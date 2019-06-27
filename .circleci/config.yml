@@ -3,7 +3,10 @@ workflows:
   main:
     jobs:
       - build
-      - deploy
+      - deploy:
+        # build‚ªŠ®—¹ŒãŽÀŽ{
+        requires:
+          - build
 
 jobs:
   build:
