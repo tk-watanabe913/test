@@ -73,7 +73,7 @@ workflows:
             - build
 
       # デプロイジョブ(masterブランチ)の実行
-      - deploy-to-master::
+      - deploy-to-master:
           requires:
             - approval-deploy
           filters:
