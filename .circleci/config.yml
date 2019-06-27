@@ -9,10 +9,7 @@ jobs:
     
     docker:
       # 後続に記載するstepsを実行するメインとなるDockerコンテナを指定する
-      - image: circleci/ruby:2.4-node
 
-      - image: circleci/postgres:9.4.12-alpine
-      
       - image: circleci/python:3.7.3
 
     steps:
