@@ -3,6 +3,7 @@ workflows:
   main:
     jobs:
       - build
+      - deploy
 
 jobs:
   build:
