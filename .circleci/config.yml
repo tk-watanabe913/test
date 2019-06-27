@@ -48,9 +48,9 @@ workflows:
     jobs:
       - build
       - approval-deploy:
-          type: approva
+          type: approval
           requires:
-            - buildl
+            - build
       - deploy:
           requires:
             - approval-deploy
