@@ -48,9 +48,9 @@ workflows:
     jobs:
       - build
       - deploy:
-        type: approval
-        requires:
-          - build
-        filters:
-          branches:
-            only: master
+          type: approval
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
