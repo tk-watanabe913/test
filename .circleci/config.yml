@@ -1,6 +1,6 @@
 version: 2.1
 workflows:
-  main:
+  build-and-deploy:
     jobs:
       - build
       - deploy:
