@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 jobs:
   build:
     working_directory: ~/tk-watanabe913
@@ -36,7 +36,7 @@ jobs:
       - run:
           name: Install awscli
           command: sudo pip install awscli
-      
+
       - run:
           name: Deploy to S3 if branch is Master.
           command: |
@@ -45,10 +45,12 @@ jobs:
             elif  [ "${CIRCLE_BRANCH}" == "develop" ]; then
               aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME_DEVELOP}/ --exact-timestamps --delete
             fi
+
 workflows:
   main:
     jobs:
       - build
+
       - deploy:
         requires:
           - build
