@@ -40,7 +40,6 @@ jobs:
           name: Deploy to S3 if branch is master.
           command: |
             aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME_MASTER}/ --exact-timestamps --delete
-            # aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME_DEVELOP}/ --exact-timestamps --delete
 
   # develop環境へのデプロイを実施するジョブ
   deploy-to-develop:
@@ -110,3 +109,4 @@ workflows:
           filters:
             branches:
               only: develop
+
