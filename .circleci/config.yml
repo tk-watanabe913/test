@@ -43,9 +43,17 @@ jobs:
 
   # develop環境へのデプロイを実施するジョブ
   deploy-to-develop:
-    machine:
-      enabled: true
     working_directory: ~/tk-watanabe913
+    
+  environment:
+    - AWS_DEFAULT_REGION: ap-northeast-1
+    - AWS_S3_BUCKET_NAME_MASTER: nitcirclecitest-master
+    - AWS_S3_BUCKET_NAME_DEVELOP: nitcirclecitest-develop
+
+  # Dockerコンテナを利用する
+  docker:
+    # 後続に記載するstepsを実行するメインとなるDockerコンテナを指定する
+    - image: circleci/python:3.7.3
 
     steps:
       # awscliをインストール
