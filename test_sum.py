@@ -15,7 +15,7 @@ class TestSum(unittest.TestCase):
 
         result = sum(data)
 
-        self.assertEqual(result, 6)
+        self.assertEqual(result, 7)
 
 
 
