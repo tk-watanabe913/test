@@ -1,14 +1,14 @@
 version: 2.1
 
-orbs:
-  # slackのコンフィグパッケージをインポート
-  slack: circleci/slack@3.2.0
-
 jobs:
-  # ビルドを実施するジョブ
   build:
     working_directory: ~/tk-watanabe913
     
+    environment:
+      - AWS_DEFAULT_REGION: ap-northeast-1
+      - AWS_S3_BUCKET_NAME_MASTER: nitcirclecitest-master
+      - AWS_S3_BUCKET_NAME_DEVELOP: nitcirclecitest-develop
+   
     # Dockerコンテナを利用する
     docker:
       # 後続に記載するstepsを実行するメインとなるDockerコンテナを指定する
@@ -20,104 +20,18 @@ jobs:
 
       # テストの実行
       - run:
+          name: Install awscli
+          command: sudo pip install awscli
+            
+      - run:
           name: run tests
           command: |
             python test_sum.py
-
-  # 本番環境へのデプロイを実施するジョブ
-  deploy-to-master:
-    machine:
-      enabled: true
-    working_directory: ~/tk-watanabe913
-    
-    environment:
-      - AWS_DEFAULT_REGION: ap-northeast-1
-      - AWS_S3_BUCKET_NAME_MASTER: nitcirclecitest-master
-
-    steps:
-      # awscliをインストール
       - run:
-          name: Install awscli
-          command: sudo pip install awscli
-
-      - run:
-          name: Deploy to S3 if branch is master.
+          name: Deploy to S3 if branch is Master.
           command: |
-            aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME_MASTER}/ --exact-timestamps --delete
-
-  # develop環境へのデプロイを実施するジョブ
-  deploy-to-develop:
-    working_directory: ~/tk-watanabe913
-    
-    environment:
-      - AWS_DEFAULT_REGION: ap-northeast-1
-      - AWS_S3_BUCKET_NAME_DEVELOP: nitcirclecitest-develop
-
-    # Dockerコンテナを利用する
-    docker:
-      # 後続に記載するstepsを実行するメインとなるDockerコンテナを指定する
-      - image: circleci/python:3.7.3
-
-    steps:
-      # awscliをインストール
-      - run:
-          name: Install awscli
-          command: sudo pip install awscli
-
-      - run:
-          name: Deploy to S3 if branch is develop.
-          command: |
-            aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME_DEVELOP}/ --exact-timestamps --delete
-
-  # 承認URLをslackに通知
-  notify-to-slack-for-approval:
-    machine:
-      enabled: true
-
-    steps:
-      - slack/approval:
-          message: "本番環境へのデプロイを承認してください"
-          mentions: "here"
-          color: "#F5E911"
-
-workflows:
-  version: 2
-  build-and-deploy:
-    jobs:
-      # ビルドジョブの実行
-      - build
-      
-      # 承認機能
-      #   手動で承認した時点で、後続ジョブを実行する
-      - approval-deploy:
-          type: approval
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
-
-      # 承認用URLをslackで通知
-      - notify-to-slack-for-approval:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
-
-      # デプロイジョブ(masterブランチ)の実行
-      - deploy-to-master:
-          requires:
-            - approval-deploy
-          filters:
-            branches:
-              only: master
-              
-      # デプロイジョブ(developブランチ)の実行
-      - deploy-to-develop:
-          requires:
-            - build
-          filters:
-            branches:
-              only: develop
-
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME_MASTER}/ --exact-timestamps --delete
+            elif  [ "${CIRCLE_BRANCH}" == "develop" ]; then
+              aws s3 sync ~/tk-watanabe913 s3://${AWS_S3_BUCKET_NAME_DEVELOP}/ --exact-timestamps --delete
+            fi
