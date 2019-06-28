@@ -28,9 +28,13 @@ jobs:
   deploy-to-master:
     machine:
       enabled: true
+
     working_directory: ~/tk-watanabe913
 
     steps:
+      # リポジトリのコードを working_directory にチェックアウト
+      - checkout
+      
       # awscliをインストール
       - run:
           name: Install awscli
@@ -45,9 +49,13 @@ jobs:
   deploy-to-develop:
     machine:
       enabled: true
-    working_directory: ~/tk-watanabe913
 
+    working_directory: ~/tk-watanabe913
+    
     steps:
+      # リポジトリのコードを working_directory にチェックアウト
+      - checkout
+      
       # awscliをインストール
       - run:
           name: Install awscli
@@ -109,3 +117,4 @@ workflows:
           filters:
             branches:
               only: develop
+
