@@ -95,12 +95,12 @@ workflows:
               only: master
 
       # 承認用URLをslackで通知
-      - notify-to-slack-for-approval:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
+      #- notify-to-slack-for-approval:
+      #    requires:
+      #      - build
+      #    filters:
+      #      branches:
+      #        only: master
 
       # デプロイジョブ(masterブランチ)の実行
       - deploy-to-master:
